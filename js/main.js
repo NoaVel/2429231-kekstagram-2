@@ -58,9 +58,9 @@ const getRandomInteger = (a, b) => {
 //Создание вложенного объекта Comments
 const createComment = () => {
   let id = 1;
-  const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-  // const indexMessageArray = getRandomInteger(0, MESSAGES.length - 1);
-  // const indexNameArray = getRandomInteger(0, NAMES.length - 1);
+  // const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+  const indexMessageArray = getRandomInteger(0, MESSAGES.length - 1);
+  const indexNameArray = getRandomInteger(0, NAMES.length - 1);
 
   //Возвращаемая функция, которая создаёт комментарий
   return () => {
@@ -68,8 +68,10 @@ const createComment = () => {
     const idAvatar = getRandomInteger(1, 6);
     comment.id = id;
     comment.avatar = `img/avatar-${idAvatar()}.svg`;
-    comment.message = `${getRandomArrayElement(MESSAGES) }. ${ getRandomArrayElement(MESSAGES)}`;
-    comment.name = `${getRandomArrayElement(NAMES)}`;
+    // comment.message = `${getRandomArrayElement(MESSAGES) }. ${ getRandomArrayElement(MESSAGES)}`;
+    // comment.name = `${getRandomArrayElement(NAMES)}`;
+    comment.message = `${MESSAGES[indexMessageArray()]} ${MESSAGES[indexMessageArray()]}`;
+    comment.name = `${NAMES[indexNameArray()]}`;
     id++;
     return comment;
   };
