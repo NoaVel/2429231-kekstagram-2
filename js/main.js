@@ -10,6 +10,10 @@
 //  likes - число — количество лайков, поставленных фотографии. Случайное число от 15 до 200.
 //  comments - массив объектов — список комментариев, оставленных другими пользователями к этой фотографии. Количество комментариев к каждой фотографии — случайное число от 0 до 30. Все комментарии генерируются случайным образом.
 
+const LIKES_RANGE = {
+  MIN: 15,
+  MAX: 200,
+};
 
 //Массив сообщений
 const MESSAGES = [
@@ -58,7 +62,6 @@ const getRandomInteger = (a, b) => {
 //Создание вложенного объекта Comments
 const createComment = () => {
   let id = 1;
-  // const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
   const indexMessageArray = getRandomInteger(0, MESSAGES.length - 1);
   const indexNameArray = getRandomInteger(0, NAMES.length - 1);
 
@@ -68,8 +71,6 @@ const createComment = () => {
     const idAvatar = getRandomInteger(1, 6);
     comment.id = id;
     comment.avatar = `img/avatar-${idAvatar()}.svg`;
-    // comment.message = `${getRandomArrayElement(MESSAGES) }. ${ getRandomArrayElement(MESSAGES)}`;
-    // comment.name = `${getRandomArrayElement(NAMES)}`;
     comment.message = `${MESSAGES[indexMessageArray()]} ${MESSAGES[indexMessageArray()]}`;
     comment.name = `${NAMES[indexNameArray()]}`;
     id++;
@@ -87,7 +88,7 @@ const createPhoto = () => {
     //Количество комментариев
     const numComments = getRandomInteger(0, 30),
       //Количество лайков
-      numLikes = getRandomInteger(15, 200);
+      numLikes = getRandomInteger(LIKES_RANGE.MIN, LIKES_RANGE.MAX);
 
     photo.id = id;
     photo.url = `photos/${id}.jpg`;
