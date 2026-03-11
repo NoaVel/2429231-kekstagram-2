@@ -43,3 +43,27 @@ function extractNumber (string) {
 }
 
 extractNumber();
+
+//ДЗ module5-task2
+
+function isMeetingWithinWorkday(workStart, workEnd, meetingStart, duration) {
+  //Преобразует строку времени (чч:мм) в минуты от начала суток
+  const toMinutes = (time) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
+  };
+
+  const workStartMinutes = toMinutes(workStart);
+  const workEndMinutes = toMinutes(workEnd);
+  const meetingStartMinutes = toMinutes(meetingStart);
+  const meetingEndMinutes = meetingStartMinutes + duration;
+
+  //Проверяет, что встреча полностью внутри рабочего дня
+  return meetingStartMinutes >= workStartMinutes && meetingEndMinutes <= workEndMinutes;
+}
+
+isMeetingWithinWorkday('08:00', '17:30', '14:00', 90); // true
+isMeetingWithinWorkday('8:0', '10:0', '8:0', 120); // true
+isMeetingWithinWorkday('08:00', '14:30', '14:00', 90); // false
+isMeetingWithinWorkday('14:00', '17:30', '08:0', 90); // false
+isMeetingWithinWorkday('8:00', '17:30', '08:00', 900); // false
