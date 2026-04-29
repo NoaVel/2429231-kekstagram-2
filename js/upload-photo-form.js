@@ -78,6 +78,12 @@ const onUploadFormSubmit = (evt) => {
 
 pristine.addValidator(
   hashtagsInputNode,
+  hasValidHashtagFormat,
+  'Хэштег должен начинаться с # и содержать только буквы и цифры'
+);
+
+pristine.addValidator(
+  hashtagsInputNode,
   hasValidHashtagCount,
   'Нельзя указать больше пяти хэштегов'
 );
@@ -86,12 +92,6 @@ pristine.addValidator(
   hashtagsInputNode,
   hasValidHashtagLength,
   'Максимальная длина одного хэштега — 20 символов'
-);
-
-pristine.addValidator(
-  hashtagsInputNode,
-  hasValidHashtagFormat,
-  'Хэштег должен начинаться с # и содержать только буквы и цифры'
 );
 
 pristine.addValidator(
