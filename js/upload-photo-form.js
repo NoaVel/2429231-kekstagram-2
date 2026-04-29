@@ -5,6 +5,8 @@ import {
   hasUniqueHashtags
 } from './check-hashtag-validity.js';
 
+import { resetImageEditor } from './image-editor.js';
+
 const MAX_COMMENT_LENGTH = 140;
 
 const bodyNode = document.body;
@@ -30,6 +32,7 @@ const resetUploadPhotoForm = () => {
   uploadFormNode.reset();
   uploadFileControl.value = '';
   pristine.reset();
+  resetImageEditor();
 };
 
 const stopEscapePropagation = (evt) => {
