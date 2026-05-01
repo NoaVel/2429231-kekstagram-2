@@ -10,6 +10,9 @@ import { sendData } from './api.js';
 import { showSuccessMessage, showErrorMessage } from './messages.js';
 
 const MAX_COMMENT_LENGTH = 140;
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const DEFAULT_PREVIEW_IMAGE = 'img/upload-default-image.jpg';
+
 const SubmitButtonText = {
   IDLE: 'Опубликовать',
   SENDING: 'Публикую...',
@@ -23,6 +26,8 @@ const uploadCancelButtonNode = uploadFormNode.querySelector('#upload-cancel');
 const hashtagsInputNode = uploadFormNode.querySelector('.text__hashtags');
 const descriptionInputNode = uploadFormNode.querySelector('.text__description');
 const submitButtonNode = uploadFormNode.querySelector('.img-upload__submit');
+const previewImageNode = uploadOverlayNode.querySelector('.img-upload__preview img');
+const effectsPreviewNodes = uploadOverlayNode.querySelectorAll('.effects__preview');
 
 const pristine = new Pristine(uploadFormNode, {
   classTo: 'img-upload__field-wrapper',
@@ -42,11 +47,27 @@ const toggleSubmitButton = (isDisabled) => {
     : SubmitButtonText.IDLE;
 };
 
+const resetFormFields = () => {
+  hashtagsInputNode.value = '';
+  descriptionInputNode.value = '';
+  pristine.reset();
+  resetImageEditor();
+};
+
+const resetPreview = () => {
+  previewImageNode.src = DEFAULT_PREVIEW_IMAGE;
+  effectsPreviewNodes.forEach((preview) => {
+    preview.style.backgroundImage = `url("${DEFAULT_PREVIEW_IMAGE}")`;
+  });
+};
+
 const resetUploadPhotoForm = () => {
   uploadFormNode.reset();
   uploadFileControl.value = '';
-  pristine.reset();
-  resetImageEditor();
+  // pristine.reset();
+  // resetImageEditor();
+  resetFormFields();
+  resetPreview();
 };
 
 const stopEscapePropagation = (evt) => {
@@ -79,6 +100,29 @@ const closeUploadPhotoForm = () => {
 };
 
 const onUploadFileControlChange = () => {
+  const file = uploadFileControl.files[0];
+
+  if (!file) {
+    return;
+  }
+
+  const fileName = file.name.toLowerCase();
+  const isValidFileType = FILE_TYPES.some((type) => fileName.endsWith(type));
+
+  if (!isValidFileType) {
+    return;
+  }
+
+  resetFormFields();
+
+  const imageUrl = URL.createObjectURL(file);
+
+  previewImageNode.src = imageUrl;
+
+  effectsPreviewNodes.forEach((preview) => {
+    preview.style.backgroundImage = `url("${imageUrl}")`;
+  });
+
   openUploadPhotoForm();
 };
 
